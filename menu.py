@@ -1,6 +1,6 @@
 import time
 from programs import (
-    about, photos, quotes, settings, words
+    about, clock, photos, quotes, settings, words
 )
 
 # Time Zone
@@ -112,6 +112,8 @@ class Menu():
                 time.sleep(0.2)
             
             if (self.key_b.value() == 0):
+                if self.items[self.cursor] == "Clock":
+                    clock.show_clock(self.lcd, self.key_a, self.key_b)
                 if self.items[self.cursor] == "Photos":
                     photos.show_photo(self.lcd, self.key_a, self.key_b)
                 elif self.items[self.cursor] == "Words":
