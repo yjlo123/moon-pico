@@ -99,7 +99,7 @@ font = {
     'invalid': [0x0,0x7c00,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x4400,0x7c00,0x0,0x0,0x0,0x0,0x0,0x0,0x0],
 }
 
-def draw_char(lcd, c, top, left):
+def draw_char(lcd, c, top, left, scale=1):
     code_width = 16
     if c not in font:
         c = 'invalid'
@@ -108,10 +108,13 @@ def draw_char(lcd, c, top, left):
         code = arr[row]
         for col in range(code_width, -1, -1):
             if code & (1 << col):
-                lcd.pixel(left + (code_width-col), top+row, lcd.white)
+                x, y = left + scale * (code_width-col), top+scale*row
+                for a in range(scale):
+                    for b in range(scale):
+                        lcd.pixel(x+a, y+b, lcd.white)
                 
-def draw_word(lcd, word, top, left):
-    letter_width = 14
+def draw_word(lcd, word, top, left, scale=1):
+    letter_width = 14 * scale
     for c in word:
-        draw_char(lcd, c, top, left)
+        draw_char(lcd, c, top, left, scale=scale)
         left += letter_width
